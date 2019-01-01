@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 European Union
+ * Copyright 2017-2018 European Union
  * Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
  * You may not use this work except in compliance with the Licence.
@@ -176,7 +176,7 @@ public class StdTestObjectTypes {
 					// can be served." To cover both the old and the newer version negotiation approach, the request
 					// includes both parameters.
 					WFS_2_0_TOT
-							.setDefaultPathAndQuery("?REQUEST=GetCapabilities&SERVICE=wfs&ACCEPTVERSIONS=2.0.0&VERSION=2.0.0");
+							.setDefaultPathAndQuery("?request=GetCapabilities&service=WFS&AcceptVersions=2.0.0&version=2.0.0");
 					WFS_2_0_TOT.setUriDetectionExpression("(service=wfs.*(version=2\\.0\\.|acceptversions=2\\.0\\.))|"
 							+ "((version=2\\.0\\.|acceptversions=2\\.0\\.).*service=wfs)");
 					put(WFS_2_0_ID, WFS_2_0_TOT);
@@ -192,7 +192,7 @@ public class StdTestObjectTypes {
 							ExpressionType.XPATH);
 					WFS_1_1_TOT.setLabelExpression(owsLabelExpression, ExpressionType.XPATH);
 					WFS_1_1_TOT.setDescriptionExpression(owsDescriptionExpression, ExpressionType.XPATH);
-					WFS_1_1_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=wfs&version=1.1.0");
+					WFS_1_1_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=WFS&version=1.1.0");
 					WFS_1_1_TOT.setUriDetectionExpression("(service=wfs.*version=1\\.1\\.)|(version=1\\.1\\..*service=wfs)");
 					put(WFS_1_1_ID, WFS_1_1_TOT);
 				}
@@ -206,7 +206,7 @@ public class StdTestObjectTypes {
 							+ "namespace-uri() = 'http://www.opengis.net/wfs' and @version='1.0.0'])", ExpressionType.XPATH);
 					WFS_1_0_TOT.setLabelExpression(owsLabelExpression, ExpressionType.XPATH);
 					WFS_1_0_TOT.setDescriptionExpression(owsDescriptionExpression, ExpressionType.XPATH);
-					WFS_1_0_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=wfs&version=1.0.0");
+					WFS_1_0_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=WFS&version=1.0.0");
 					WFS_1_0_TOT.setUriDetectionExpression("(service=wfs.*version=1\\.0\\.)|(version=1\\.0\\..*service=wfs)");
 					put(WFS_1_0_ID, WFS_1_0_TOT);
 				}
@@ -229,7 +229,7 @@ public class StdTestObjectTypes {
 							+ "namespace-uri() = 'http://www.opengis.net/wms' and @version = '1.3.0'])", ExpressionType.XPATH);
 					WMS_1_3_TOT.setLabelExpression(owsLabelExpression, ExpressionType.XPATH);
 					WMS_1_3_TOT.setDescriptionExpression(owsDescriptionExpression, ExpressionType.XPATH);
-					WMS_1_3_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=wms&version=1.3.0");
+					WMS_1_3_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=WMS&version=1.3.0");
 					WMS_1_3_TOT.setUriDetectionExpression("(service=wms.*version=1\\.3\\.)|(version=1\\.3\\..*service=wms)");
 					put(WMS_1_3_ID, WMS_1_3_TOT);
 				}
@@ -242,7 +242,7 @@ public class StdTestObjectTypes {
 							+ "@version = '1.1.1'])", ExpressionType.XPATH);
 					WMS_1_1_TOT.setLabelExpression(owsLabelExpression, ExpressionType.XPATH);
 					WMS_1_1_TOT.setDescriptionExpression(owsDescriptionExpression, ExpressionType.XPATH);
-					WMS_1_1_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=wms&version=1.1.0");
+					WMS_1_1_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=WMS&version=1.1.0");
 					WMS_1_1_TOT.setUriDetectionExpression("(service=wms.*version=1\\.1\\.)|(version=1\\.1\\..*service=wms)");
 					put(WMS_1_1_ID, WMS_1_1_TOT);
 				}
@@ -473,9 +473,12 @@ public class StdTestObjectTypes {
 					METADATA_RECORDS_TOT.setParent(XML_DOCUMENTS_TOT);
 					METADATA_RECORDS_TOT.setDescription(
 							"A set of XML documents. Each document contains one or more gmd:MD_Metadata elements.");
-					METADATA_RECORDS_TOT.setDetectionExpression("boolean(/*[(local-name() = 'GetRecordsResponse' and "
-							+ "starts-with(namespace-uri(), 'http://www.opengis.net/cat/csw/')) or "
-							+ "(local-name() = 'MD_Metadata' and namespace-uri() = 'http://www.isotc211.org/2005/gmd')])",
+					METADATA_RECORDS_TOT.setDetectionExpression(
+							"boolean(/*["
+									+ "(local-name() = 'GetRecordsResponse' and starts-with(namespace-uri(), 'http://www.opengis.net/cat/csw/')) or "
+									+ "(local-name() = 'GetRecordByIdResponse' and starts-with(namespace-uri(), 'http://www.opengis.net/cat/csw/')) or "
+									+ "(local-name() = 'MD_Metadata' and namespace-uri() = 'http://www.isotc211.org/2005/gmd')"
+									+ "])",
 							ExpressionType.XPATH);
 					put(METADATA_RECORDS_ID, METADATA_RECORDS_TOT);
 				}

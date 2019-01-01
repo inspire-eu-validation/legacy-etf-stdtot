@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 European Union
+ * Copyright 2017-2018 European Union
  * Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
  * You may not use this work except in compliance with the Licence.
@@ -85,7 +85,7 @@ public class StdTestObjectDetector implements TestObjectTypeDetector {
 
 	@Override
 	public void init() throws ConfigurationException, InitializationException, InvalidStateTransitionException {
-		for (final TestObjectTypeDto testObjectType : StdTestObjectTypes.types.values()) {
+		for (final TestObjectTypeDto testObjectType : supportedTypes().values()) {
 			if (!SUtils.isNullOrEmpty(testObjectType.getDetectionExpression())) {
 				try {
 					final CompiledDetectionExpression compiledExpression = new CompiledDetectionExpression(testObjectType,

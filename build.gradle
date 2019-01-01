@@ -5,20 +5,21 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 buildscript {
-    repositories {
-        maven {
-            url "http://services.interactive-instruments.de/etfdev-af/plugins-releases-local"
-            credentials {
-                username 'ii-bda'
-                password '6ozhS683'
-            }}
-    }
-    dependencies {
-        classpath group: 'de.interactive_instruments.bda', name: 'etf-bda', version:'1.0.25'
-    }
-    dependencies {
-        ant.unjar src: configurations.classpath.files.find {it.path.contains('etf')}, dest: 'build/gradle'
-    }
+	repositories {
+		maven {
+			url "https://services.interactive-instruments.de/etfdev-af/plugins-releases-local"
+			credentials {
+				// Our repository requires authenticating
+				username 'ii-bda'
+				password 'AP7mb4WA6F1ckdZkaE8Qx8GSowt'
+			}}
+	}
+	dependencies {
+		classpath group: 'de.interactive_instruments.bda', name: 'etf-bda', version: '[1.0.28,1.0.99]'
+	}
+	dependencies {
+		ant.unjar src: configurations.classpath.files.find {it.path.contains('etf')}, dest: 'build/gradle'
+	}
 }
 apply from: 'build/gradle/ii-bda.gradle'
 
@@ -28,15 +29,15 @@ group = 'de.interactive_instruments.etf'
 description = 'ETF standard Test Object Types'
 
 dependencies {
-    compileOnly group: 'de.interactive_instruments', name: 'ii-commons-util', version:'2.0.0'+project.snapshotSuffix
-    compileOnly group: 'de.interactive_instruments.etf', name: 'etf-core', version:'1.0.0'+project.snapshotSuffix
+    compileOnly group: 'de.interactive_instruments', name: 'ii-commons-util', version:'3.0.0'+project.snapshotSuffix
+    compileOnly group: 'de.interactive_instruments.etf', name: 'etf-core', version:'1.1.0'+project.snapshotSuffix
     compileOnly group: 'commons-collections', name: 'commons-collections', version: etf_commonsCollectionsVersion
-    compile group: 'in.jlibs', name: 'jlibs-xmldog', version: '2.2.1'
+    compile group: 'in.jlibs', name: 'jlibs-xmldog', version: '2.2.2'
 
 
     // Testing
     testCompile group: 'junit', name: 'junit', version: etf_junitTestVersion
-    testCompile group: 'de.interactive_instruments', name: 'ii-commons-util', version:'2.0.0'+project.snapshotSuffix
-    testCompile group: 'de.interactive_instruments.etf', name: 'etf-core', version:'1.0.0'+project.snapshotSuffix
+    testCompile group: 'de.interactive_instruments', name: 'ii-commons-util', version:'3.0.0'+project.snapshotSuffix
+    testCompile group: 'de.interactive_instruments.etf', name: 'etf-core', version:'1.1.0'+project.snapshotSuffix
     testCompile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.5.2'
 }
