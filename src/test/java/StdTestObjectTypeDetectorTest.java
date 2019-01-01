@@ -188,7 +188,7 @@ public class StdTestObjectTypeDetectorTest {
 	public void test17_unknown() throws URISyntaxException, IOException, TestObjectTypeNotDetected, ObjectWithIdNotFoundException, IncompatibleTestObjectTypeException {
 		final DetectedTestObjectType detectedType = TestObjectTypeDetectorManager.detect(
 				Resource.create("test",
-						new URI("http://www.interactive-instruments.de")));
+						new URI("https://www.interactive-instruments.de")));
 	}
 
 	@Test
