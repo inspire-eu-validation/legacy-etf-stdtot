@@ -4,3 +4,4 @@
 etf-stdtot.iml
 build
 hs_err_pid*.log
+/out
