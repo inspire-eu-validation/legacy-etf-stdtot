@@ -251,6 +251,7 @@ public class StdTestObjectTypes {
 					WMTS_TOT.setId(WMTS_ID);
 					WMTS_TOT.setParent(WEB_SERVICE_TOT);
 					WMTS_TOT.setDescription("A web service implementing the OGC Web Map Tile Service standard.");
+					WMS_TOT.setUriDetectionExpression("\\/wmts\\?|service=wmts");
 					put(WMTS_ID, WMTS_TOT);
 				}
 				{
@@ -262,6 +263,8 @@ public class StdTestObjectTypes {
 							+ "namespace-uri() = 'http://www.opengis.net/wmts/1.0'])", ExpressionType.XPATH);
 					WMTS_1_0_TOT.setLabelExpression(owsLabelExpression, ExpressionType.XPATH);
 					WMTS_1_0_TOT.setDescriptionExpression(owsDescriptionExpression, ExpressionType.XPATH);
+					WMTS_1_0_TOT.setDefaultPathAndQuery("?request=GetCapabilities&service=WMTS");
+					WMTS_1_0_TOT.setUriDetectionExpression("(service=wmts.*version=1\\.1\\.)|(version=1\\.1\\..*service=wmts)");
 					put(WMTS_1_0_ID, WMTS_1_0_TOT);
 				}
 				{
