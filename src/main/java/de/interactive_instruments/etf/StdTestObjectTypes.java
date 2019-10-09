@@ -251,7 +251,7 @@ public class StdTestObjectTypes {
 					WMTS_TOT.setId(WMTS_ID);
 					WMTS_TOT.setParent(WEB_SERVICE_TOT);
 					WMTS_TOT.setDescription("A web service implementing the OGC Web Map Tile Service standard.");
-					WMS_TOT.setUriDetectionExpression("\\/wmts\\?|service=wmts");
+					WMTS_TOT.setUriDetectionExpression("\\/wmts\\?|service=wmts");
 					put(WMTS_ID, WMTS_TOT);
 				}
 				{
