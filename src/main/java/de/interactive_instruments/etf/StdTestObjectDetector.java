@@ -180,6 +180,7 @@ public class StdTestObjectDetector implements TestObjectTypeDetector {
                 return detectionExpression.getDetectedTestObjectType(
                         xmlDog.sniff(new InputSource(normalizedResource.openStream())), normalizedResource);
             } else {
+            	//Get resource, collect URI and send request to check /conformance path
                 final StdDetectedTestObjectType returned = new StdDetectedTestObjectType(
                         detectionExpression.getTestObjectType(),
                         normalizedResource);

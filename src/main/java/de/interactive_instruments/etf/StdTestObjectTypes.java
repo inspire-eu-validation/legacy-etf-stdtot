@@ -36,7 +36,8 @@ public class StdTestObjectTypes {
     // Supported Test Object Types
     public static final TestObjectTypeDto WEB_SERVICE_TOT = new TestObjectTypeDto();
     private static EID WEB_SERVICE_ID = EidFactory.getDefault().createAndPreserveStr("88311f83-818c-46ed-8a9a-cec4f3707365");
-    
+
+    // Add API Features type
     public static final TestObjectTypeDto API_FEATURES_TOT = new TestObjectTypeDto();
     private static EID API_FEATURES_ID = EidFactory.getDefault().createAndPreserveStr("1e8c4f6d-c4f4-4e1c-bfc3-414469ce6910");
     // TEST
@@ -144,10 +145,6 @@ public class StdTestObjectTypes {
     private static final String owsLabelExpression = "/*/*[local-name() = 'ServiceIdentification' or local-name() = 'Service' ][1]/*[local-name() = 'Title'][1]/text()";
     private static final String owsDescriptionExpression = "(/*/*[local-name() = 'ServiceIdentification' or local-name() = 'Service'][1]/*[local-name() = 'Abstract'][1]/text())[1]";
 
-    //Add API Features type
-    private static final TestObjectTypeDto API_FEATURES_TOT = new TestObjectTypeDto();
-    private static EID API_FEATURES_ID = EidFactory.getDefault().createAndPreserveStr("373d2cc8-9c87-4224-a80a-007fb4c9abb3");
-    
     // Supported Test Object Types
     public final static EidMap<TestObjectTypeDto> types = new DefaultEidMap<>(
             Collections.unmodifiableMap(new LinkedHashMap<EID, TestObjectTypeDto>() {
@@ -511,12 +508,12 @@ public class StdTestObjectTypes {
                     put(METADATA_RECORDS_ID, METADATA_RECORDS_TOT);
                 }
                 {
-                	//Detection and configuration API_FEATURES_TOT
-                	API_FEATURES_TOT.setLabel("OGC API-Features 1.0");
-                	API_FEATURES_TOT.setId(API_FEATURES_ID);
-                	API_FEATURES_TOT.setParent(WEB_SERVICE_TOT);
-                	API_FEATURES_TOT.setDescription("JSON from API Features call");
-                	API_FEATURES_TOT.setUriDetectionExpression("http");
+                    // Detection and configuration API_FEATURES_TOT
+                    API_FEATURES_TOT.setLabel("OGC API-Features 1.0");
+                    API_FEATURES_TOT.setId(API_FEATURES_ID);
+                    API_FEATURES_TOT.setParent(WEB_SERVICE_TOT);
+                    API_FEATURES_TOT.setDescription("JSON from API Features call");
+                    API_FEATURES_TOT.setUriDetectionExpression("http");
                     put(API_FEATURES_ID, API_FEATURES_TOT);
                 }
             }));
