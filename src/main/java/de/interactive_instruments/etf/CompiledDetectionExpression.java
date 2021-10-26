@@ -137,7 +137,7 @@ final class CompiledDetectionExpression implements Comparable<CompiledDetectionE
         }
         return cmp;
     }
-    
+
     // API FEATURES
     boolean isApiFeatures(final String text) {
         String detectionExpressionText = this.detectionExpression.toString();
@@ -148,7 +148,7 @@ final class CompiledDetectionExpression implements Comparable<CompiledDetectionE
         }
 
     }
-    
+
     public TestObjectTypeDto getTestObjectType() {
         return this.testObjectType;
     }

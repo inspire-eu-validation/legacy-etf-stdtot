@@ -19,10 +19,17 @@
  */
 package de.interactive_instruments.etf;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
@@ -32,6 +39,8 @@ import jlibs.xml.sax.dog.XMLDog;
 import jlibs.xml.sax.dog.XPathResults;
 
 import org.jaxen.saxpath.SAXPathException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
@@ -73,6 +82,13 @@ public class StdTestObjectDetector implements TestObjectTypeDetector {
     private final EidMap<CompiledDetectionExpression> detectionExpressionsEidMap = new DefaultEidMap<>();
 
     private final XMLDog xmlDog = new XMLDog(new DefaultNamespaceContext(), null, null);
+
+    private static final String LINKS = "links";
+    private static final String REL = "rel";
+    private static final String CONFORMANCE = "conformance";
+    private static final String HREF = "href";
+    private static final String CONFORMS_TO = "conformsTo";
+    private static final String CONFORMANCE_URL_COMPLIANT = "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core";
 
     @Override
     public EidMap<TestObjectTypeDto> supportedTypes() {
@@ -180,13 +196,15 @@ public class StdTestObjectDetector implements TestObjectTypeDetector {
                 return detectionExpression.getDetectedTestObjectType(
                         xmlDog.sniff(new InputSource(normalizedResource.openStream())), normalizedResource);
             } else {
-            	//Get resource, collect URI and send request to check /conformance path
-                final StdDetectedTestObjectType returned = new StdDetectedTestObjectType(
-                        detectionExpression.getTestObjectType(),
-                        normalizedResource);
-                return returned;
+                // Get resource, collect URI and send request to check /conformance path
+                if (checkResourcePath(normalizedResource.getUri())) {
+                    final StdDetectedTestObjectType returned = new StdDetectedTestObjectType(
+                            detectionExpression.getTestObjectType(),
+                            normalizedResource);
+                    return returned;
+                }
             }
-        } catch (IOException | XPathException e) {
+        } catch (IOException | XPathException | JSONException e) {
             logger.error("Error occurred during Test Object Type detection ", e);
         }
         return null;
@@ -253,5 +271,48 @@ public class StdTestObjectDetector implements TestObjectTypeDetector {
     @Override
     public DetectedTestObjectType detectType(final Resource resource) {
         return detectedType(resource, detectionExpressions);
+    }
+
+    private static boolean checkResourcePath(URI uri) throws IOException {
+        try {
+            String content = getContentFromUrl(uri.toURL());
+            String conformanceHref = searchConformanceHref(new JSONObject(content));
+            if (conformanceHref == null) {
+                return false;
+            }
+            return checkConformanceHref(conformanceHref);
+        } catch (IllegalArgumentException e) {
+            logger.error("Error occurred during resource path checking process ", e);
+            return false;
+        }
+
+    }
+
+    private static String searchConformanceHref(JSONObject json) {
+        if (json.has(LINKS)) {
+            return StreamSupport.stream(json.getJSONArray(LINKS).spliterator(), false)
+                    .map(JSONObject.class::cast)
+                    .filter(o -> o.has(REL) && CONFORMANCE.equals(o.getString(REL)) && o.has(HREF))
+                    .map(o -> o.getString(HREF))
+                    .findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    private static boolean checkConformanceHref(String href) throws IOException {
+        String content = getContentFromUrl(new URL(href));
+        JSONObject json = new JSONObject(content);
+        if (json.has(CONFORMS_TO)) {
+            return StreamSupport.stream(json.getJSONArray(CONFORMS_TO).spliterator(), false)
+                    .map(String.class::cast)
+                    .anyMatch(CONFORMANCE_URL_COMPLIANT::equals);
+        }
+        return false;
+    }
+
+    private static String getContentFromUrl(URL url) throws IOException {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
+            return br.lines().collect(Collectors.joining(""));
+        }
     }
 }
