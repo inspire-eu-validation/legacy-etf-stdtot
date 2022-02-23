@@ -501,7 +501,7 @@ public class StdTestObjectTypes {
                     METADATA_RECORDS_TOT.setDetectionExpression(
                             "boolean(/*["
                                     + "(local-name() = 'GetRecordsResponse' and starts-with(namespace-uri(), 'http://www.opengis.net/cat/csw/')) or "
-                                    + "(local-name() = 'GetRecordByIdResponse' and starts-with(namespace-uri(), 'http://www.opengis.net/cat/csw/')) or "
+                                    + "(local-name() = 'GetRecordByIdResponse' and starts-with(namespace-uri(), 'http://www.opengis.net/cat/csw/') and (count(//*[local-name() = 'MD_Metadata'])>0)) or "
                                     + "(local-name() = 'MD_Metadata' and namespace-uri() = 'http://www.isotc211.org/2005/gmd')"
                                     + "])",
                             ExpressionType.XPATH);
