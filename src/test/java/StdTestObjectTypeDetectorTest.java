@@ -263,5 +263,44 @@ public class StdTestObjectTypeDetectorTest {
 		}
 		fail("Exception expected");
 	}
+	
+	@Test
+	public void test25_wmtsNoParameter() throws URISyntaxException, IOException, TestObjectTypeNotDetected,
+			ObjectWithIdNotFoundException, IncompatibleTestObjectTypeException {
+		// Assert detected WMTS without parameters
+		try {
+			final DetectedTestObjectType detectedType = TestObjectTypeDetectorManager.detect(
+					Resource.create("test",
+							new URI("http://www.ign.es/wmts/pnoa-ma")),
+					TestObjectTypeDetectorManager.getTypes("ae35f7cd-86d9-475a-aa3a-e0bfbda2bb5f").keySet());
+			
+			assertNotNull(detectedType);
+			assertEquals("ae35f7cd-86d9-475a-aa3a-e0bfbda2bb5f", detectedType.getId().toString());
+			assertEquals("380b969c-215e-46f8-a4e9-16f002f7d6c3", detectedType.getParent().getId().toString());
+			
+		}catch (IncompatibleTestObjectTypeException e) {
+			fail("Not an WMTS URL provided");
+		}
+		
+	}
+
+	@Test
+	public void test26_wmtsIncompatibleType() throws URISyntaxException, IOException, TestObjectTypeNotDetected,
+			ObjectWithIdNotFoundException, IncompatibleTestObjectTypeException {
+		// Expecting WMS 1.3.0 but provide WMTS 1.0 URL
+		try {
+			final DetectedTestObjectType detectedType = TestObjectTypeDetectorManager.detect(
+					Resource.create("test",
+							new URI("http://www.ign.es/wmts/pnoa-ma")),
+					// Expect WMS 1.3.0
+					TestObjectTypeDetectorManager.getTypes("9981e87e-d642-43b3-ad5f-e77469075e74").keySet());
+			
+		}catch (IncompatibleTestObjectTypeException e) {
+			assertEquals("ae35f7cd-86d9-475a-aa3a-e0bfbda2bb5f",
+					e.getDetectedTestObjectType().getId().getId());
+			return;
+		}
+		fail("Exception expected");
+	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 European Union
+ * Copyright 2017-2019 European Union
  * Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
  * the European Commission - subsequent versions of the EUPL (the "Licence");
  * You may not use this work except in compliance with the Licence.
@@ -37,135 +37,135 @@ import de.interactive_instruments.etf.model.capabilities.TestObjectType;
  */
 class StdDetectedTestObjectType implements DetectedTestObjectType {
 
-	private final TestObjectTypeDto testObjectType;
-	private final String extractedLabel;
-	private final String extractedDescription;
-	private final Resource normalizedResource;
-	private final int priority;
+    private final TestObjectTypeDto testObjectType;
+    private final String extractedLabel;
+    private final String extractedDescription;
+    private final Resource normalizedResource;
+    private final int priority;
 
-	StdDetectedTestObjectType(final TestObjectTypeDto testObjectType, final Resource normalizedResource) {
-		this(testObjectType, normalizedResource, null, null, 0);
-	}
+    StdDetectedTestObjectType(final TestObjectTypeDto testObjectType, final Resource normalizedResource) {
+        this(testObjectType, normalizedResource, null, null, 0);
+    }
 
-	StdDetectedTestObjectType(final TestObjectTypeDto testObjectType,
-			final Resource normalizedResource, final String label, final String description,
-			final int priority) {
-		this.testObjectType = Objects.requireNonNull(testObjectType);
-		this.normalizedResource = Resource.toImmutable(Objects.requireNonNull(normalizedResource));
-		this.extractedLabel = label;
-		this.extractedDescription = description;
-		this.priority = priority;
-	}
+    StdDetectedTestObjectType(final TestObjectTypeDto testObjectType,
+            final Resource normalizedResource, final String label, final String description,
+            final int priority) {
+        this.testObjectType = Objects.requireNonNull(testObjectType);
+        this.normalizedResource = Resource.toImmutable(Objects.requireNonNull(normalizedResource));
+        this.extractedLabel = label;
+        this.extractedDescription = description;
+        this.priority = priority;
+    }
 
-	@Override
-	public int hashCode() {
-		return testObjectType.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return testObjectType.hashCode();
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		return testObjectType.equals(obj);
-	}
+    @Override
+    public boolean equals(final Object obj) {
+        return testObjectType.equals(obj);
+    }
 
-	@Override
-	public List<TestObjectTypeDto> getSubTypes() {
-		return testObjectType.getSubTypes();
-	}
+    @Override
+    public List<TestObjectTypeDto> getSubTypes() {
+        return testObjectType.getSubTypes();
+    }
 
-	@Override
-	public List<String> getFilenameExtensions() {
-		return testObjectType.getFilenameExtensions();
-	}
+    @Override
+    public List<String> getFilenameExtensions() {
+        return testObjectType.getFilenameExtensions();
+    }
 
-	@Override
-	public List<String> getMimeTypes() {
-		return testObjectType.getMimeTypes();
-	}
+    @Override
+    public List<String> getMimeTypes() {
+        return testObjectType.getMimeTypes();
+    }
 
-	@Override
-	public String getDetectionExpression() {
-		return testObjectType.getDetectionExpression();
-	}
+    @Override
+    public String getDetectionExpression() {
+        return testObjectType.getDetectionExpression();
+    }
 
-	@Override
-	public ExpressionType getDetectionExpressionType() {
-		return testObjectType.getDetectionExpressionType();
-	}
+    @Override
+    public ExpressionType getDetectionExpressionType() {
+        return testObjectType.getDetectionExpressionType();
+    }
 
-	@Override
-	public String getLabelExpression() {
-		return testObjectType.getLabelExpression();
-	}
+    @Override
+    public String getLabelExpression() {
+        return testObjectType.getLabelExpression();
+    }
 
-	@Override
-	public ExpressionType getLabelExpressionType() {
-		return testObjectType.getLabelExpressionType();
-	}
+    @Override
+    public ExpressionType getLabelExpressionType() {
+        return testObjectType.getLabelExpressionType();
+    }
 
-	@Override
-	public String getDescriptionExpression() {
-		return testObjectType.getDescriptionExpression();
-	}
+    @Override
+    public String getDescriptionExpression() {
+        return testObjectType.getDescriptionExpression();
+    }
 
-	@Override
-	public ExpressionType getDescriptionExpressionType() {
-		return testObjectType.getDescriptionExpressionType();
-	}
+    @Override
+    public ExpressionType getDescriptionExpressionType() {
+        return testObjectType.getDescriptionExpressionType();
+    }
 
-	@Override
-	public String getLabel() {
-		return testObjectType.getLabel();
-	}
+    @Override
+    public String getLabel() {
+        return testObjectType.getLabel();
+    }
 
-	@Override
-	public String getDescription() {
-		return testObjectType.getDescription();
-	}
+    @Override
+    public String getDescription() {
+        return testObjectType.getDescription();
+    }
 
-	@Override
-	public EID getId() {
-		return testObjectType.getId();
-	}
+    @Override
+    public EID getId() {
+        return testObjectType.getId();
+    }
 
-	@Override
-	public TestObjectType getParent() {
-		return testObjectType.getParent();
-	}
+    @Override
+    public TestObjectType getParent() {
+        return testObjectType.getParent();
+    }
 
-	@Override
-	public int compareTo(final Object o) {
-		if (o instanceof StdDetectedTestObjectType) {
-			return Integer.compare(priority, ((StdDetectedTestObjectType) (o)).priority);
-		} else if (o instanceof EidHolder) {
-			return getId().compareTo(((EidHolder) (o)).getId());
-		}
-		throw new IllegalArgumentException("Invalid object type comparison: " +
-				o.getClass().getName() + " can not be compared.");
-	}
+    @Override
+    public int compareTo(final Object o) {
+        if (o instanceof StdDetectedTestObjectType) {
+            return Integer.compare(priority, ((StdDetectedTestObjectType) (o)).priority);
+        } else if (o instanceof EidHolder) {
+            return getId().compareTo(((EidHolder) (o)).getId());
+        }
+        throw new IllegalArgumentException("Invalid object type comparison: " +
+                o.getClass().getName() + " can not be compared.");
+    }
 
-	@Override
-	public void enrichAndNormalize(final TestObjectDto testObject) {
-		if (!SUtils.isNullOrEmpty(this.extractedLabel)) {
-			testObject.setLabel(this.extractedLabel);
-		}
-		if (!SUtils.isNullOrEmpty(this.extractedDescription)) {
-			testObject.setDescription(this.extractedDescription);
-		}
-		if (normalizedResource.getUri() != null && testObject.getResourceCollection() != null
-				&& !testObject.getResourceCollection().isEmpty()) {
-			testObject.getResourceCollection().iterator().next().setUri(
-					normalizedResource.getUri());
-		}
-		testObject.setTestObjectType(this.testObjectType);
-	}
+    @Override
+    public void enrichAndNormalize(final TestObjectDto testObject) {
+        if (!SUtils.isNullOrEmpty(this.extractedLabel)) {
+            testObject.setLabel(this.extractedLabel);
+        }
+        if (!SUtils.isNullOrEmpty(this.extractedDescription)) {
+            testObject.setDescription(this.extractedDescription);
+        }
+        if (normalizedResource.getUri() != null && testObject.getResourceCollection() != null
+                && !testObject.getResourceCollection().isEmpty()) {
+            testObject.getResourceCollection().iterator().next().setUri(
+                    normalizedResource.getUri());
+        }
+        testObject.setTestObjectType(this.testObjectType);
+    }
 
-	@Override
-	public Resource getNormalizedResource() {
-		return Resource.toImmutable(this.normalizedResource);
-	}
+    @Override
+    public Resource getNormalizedResource() {
+        return Resource.toImmutable(this.normalizedResource);
+    }
 
-	@Override
-	public TestObjectTypeDto toTestObjectTypeDto() {
-		return testObjectType.createCopy();
-	}
+    @Override
+    public TestObjectTypeDto toTestObjectTypeDto() {
+        return testObjectType.createCopy();
+    }
 }
